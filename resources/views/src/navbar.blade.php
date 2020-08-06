@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Toggl Reports</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
 <body>
@@ -23,10 +23,10 @@
         </div>
     </div>
     <div class="container mt-6">
-        <h1 class="title">
+        <h1 class="title ">
             Toggl Guide
         </h1>
-        <p class="subtitle"">
+        <p class="subtitle">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus aliquid architecto culpa facere
             libero, maiores neque nobis, officiis rerum sequi, similique veniam? Accusamus at beatae cum dolorum earum
             eligendi expedita, iste magni nam officiis pariatur provident quibusdam quod tenetur velit veritatis
