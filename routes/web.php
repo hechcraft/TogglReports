@@ -28,3 +28,5 @@ Route::get('/select', function () {
 Route::get('/order', function () {
     return view('order');
 });
+
+Route::get('/test', 'TestController@index');
