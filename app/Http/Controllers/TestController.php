@@ -8,28 +8,32 @@ use Carbon\Carbon;
 
 class TestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $token = '6945021eae60daf4d24d2fb730a80e80';
         $password = 'api_token';
-        $response = Http::withBasicAuth($token, $password)->get('https://www.toggl.com/api/v8/me');
-
+        $response = Http::withBasicAuth($request->API, $password)->get('https://www.toggl.com/api/v8/me');
         $responseDecode = collect(json_decode($response));
+
         $data = array();
         $data['fullname'] = data_get($responseDecode, 'data.fullname');
         foreach (data_get($responseDecode, 'data.workspaces') as $item) {
             $data['workspaceId'][] = data_get($item, 'id');
         }
+
         $durrations = array();
         foreach ($data['workspaceId'] as $item) {
-            $response = Http::withBasicAuth($token, $password)->get('https://toggl.com/reports/api/v2/details', [
-                'user_agent' => 'hechcraft@gmail.com',
+            $response = Http::withBasicAuth($request->API, $password)->get('https://toggl.com/reports/api/v2/details', [
+                'user_agent' => $data['fullname'],
                 'workspace_id' => $item,
-                'since' => '2020-08-01',
-                'until' => '2020-08-12',
+                'since' => $request->From,
+                'until' => $request->To,
             ]);
             foreach (data_get($response, 'data') as $item) {
-                $durrations[$this->secondToTime($item['dur'])] = $item['project'];
+                if ($request->checkbox == 'on') {
+                    $durrations[$this->secondToTime($item['dur'])] = $item['project'];
+                } else {
+                    $durrations[$this->secondToTime($item['dur'])] = $item['description'];
+                }
             }
         }
         dd($durrations);
