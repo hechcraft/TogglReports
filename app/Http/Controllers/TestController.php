@@ -21,6 +21,7 @@ class TestController extends Controller
         }
 
         $durrations = array();
+        $projectName = array();
         foreach ($data['workspaceId'] as $item) {
             $response = Http::withBasicAuth($request->API, $password)->get('https://toggl.com/reports/api/v2/details', [
                 'user_agent' => $data['fullname'],
@@ -29,14 +30,15 @@ class TestController extends Controller
                 'until' => $request->To,
             ]);
             foreach (data_get($response, 'data') as $item) {
+                $durrations[] = $this->secondToTime($item['dur']);
                 if ($request->checkbox == 'on') {
-                    $durrations[$this->secondToTime($item['dur'])] = $item['project'];
+                    $projectName[] = $item['project'];
                 } else {
-                    $durrations[$this->secondToTime($item['dur'])] = $item['description'];
+                    $projectName[] = $item['description'];
                 }
             }
         }
-        dd($durrations);
+        return view('select')->with(array('projectName' => $projectName, 'durrations' => $durrations));
     }
 
     private function secondToTime($mseconds)

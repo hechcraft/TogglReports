@@ -1,6 +1,6 @@
 @extends('src/footer')
 @section('content')
-    <form action="submit" method="POST">
+    <form action="select" method="POST">
         @csrf
         <div class="container">
             <div class="control columns">

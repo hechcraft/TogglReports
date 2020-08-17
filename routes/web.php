@@ -29,4 +29,4 @@ Route::get('/order', function () {
     return view('order');
 });
 
-Route::post('/submit', 'TestController@index');
+Route::post('/select', 'TestController@index');
