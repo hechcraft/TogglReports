@@ -30,7 +30,7 @@ class TestController extends Controller
                 'until' => $request->To,
             ]);
             foreach (data_get($response, 'data') as $item) {
-                $durrations[] = $this->secondToTime($item['dur']);
+                $durrations[] = $item['dur'];
                 if ($request->checkbox == 'on') {
                     $projectName[] = $item['project'];
                 } else {

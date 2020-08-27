@@ -7,7 +7,7 @@
                 <input name="From" class="mr-6 ml-3 column input is-focused" type="text" placeholder="From"
                        value="2020-08-01">
                 <input name="To" class="ml-6 mr-3 column input is-focused" type="text" placeholder="To"
-                       value="2020-08-13">
+                       value="2020-08-30">
             </div>
             <div class="mt-2 control columns">
                 <input name="API" type="text" placeholder="API Token" class="ml-3 mr-4 input is-10 column is-focused"
