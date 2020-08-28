@@ -2,6 +2,11 @@
     <!DOCTYPE html>
 <html>
 <head>
+    @php
+        $url = url()->current();
+        $partsUrl = explode("/", $url);
+        $currentPath = end($partsUrl);
+    @endphp
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Toggl Reports</title>
@@ -12,13 +17,13 @@
     <div class="container">
         <div class="columns level">
             <div class="column level-item has-text-centered">
-                <button class="button is-link is-medium">Step 1</button>
+                <button class="{{($currentPath === 'main') ? 'is-success' : 'is-link'}} button is-medium">Step 1</button>
             </div>
             <div class="column level-item has-text-centered">
-                <button class="button is-link is-medium">Step 2</button>
+                <button class="{{($currentPath === 'select') ? 'is-success' : 'is-link'}}  button  is-medium">Step 2</button>
             </div>
             <div class="column level-item has-text-centered">
-                <button class="button is-link is-medium">Step 3</button>
+                <button class="{{($currentPath === 'order') ? 'is-success' : 'is-link'}}button is-medium">Step 3</button>
             </div>
         </div>
     </div>

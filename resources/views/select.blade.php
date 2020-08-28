@@ -79,41 +79,44 @@
         @php($j = 0)
         @for($i = 0; $i < count($projectName); $i++)
             @break($j === count($projectName) - 1)
+            @if($j != 0)
+                @php(++$j)
+            @endif
             <div class="columns is-multiline">
-                <div draggable="true" class="box column level-item has-text-centered">
+                <div id="{{$durrations[$j] . ' ' . $projectName[$j]}}"  draggable="true" class="box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
                             <input type="checkbox">
                             <p class="ml-2 subtitle is-5">
-                                @if($j != 0)
-                                    {{$projectName[++$j]}}
-                                @else
                                     {{$projectName[$j]}}
-                                @endif
                             </p>
                         </label>
                         <p class="level-right"> move </p>
                     </div>
                 </div>
                 @break($j === count($projectName) - 1)
-                <div draggable="true" class="ml-5 mr-5 box column level-item has-text-centered">
+                @php(++$j)
+                <div id="{{$durrations[$j] . ' '. $projectName[$j]}}" draggable="true"
+                     class="ml-5 mr-5 box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
                             <input type="checkbox">
                             <p class="ml-2 subtitle is-5">
-                                {{$projectName[++$j]}}
+                                {{$projectName[$j]}}
                             </p>
                         </label>
                         <p class="level-right"> move </p>
                     </div>
                 </div>
                 @break($j === count($projectName) - 1)
-                <div draggable="true" class="box column level-item has-text-centered" >
+                @php(++$j)
+                <div id="{{$durrations[$j] . ' ' . $projectName[$j]}}" draggable="true"
+                     class="box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
                             <input type="checkbox">
                             <p class="ml-2 subtitle is-5">
-                                {{$projectName[++$j]}}
+                                {{$projectName[$j]}}
                             </p>
                         </label>
                         <p class="level-right"> move </p>
