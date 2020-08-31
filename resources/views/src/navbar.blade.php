@@ -23,7 +23,7 @@
                 <button class="{{($currentPath === 'select') ? 'is-success' : 'is-link'}}  button  is-medium">Step 2</button>
             </div>
             <div class="column level-item has-text-centered">
-                <button class="{{($currentPath === 'order') ? 'is-success' : 'is-link'}}button is-medium">Step 3</button>
+                <button class="{{($currentPath === 'order') ? 'is-success' : 'is-link'}} button is-medium">Step 3</button>
             </div>
         </div>
     </div>

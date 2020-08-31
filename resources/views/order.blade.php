@@ -1,12 +1,13 @@
 @extends('src/footer')
 @section('content')
+    {{dd($data)}}
     <div class="container">
         <h1 class="title is-1"> Top 5 </h1>
         <div class="box columns mb-6">
             <div class="column has-text-centered">
                 <figure class="image is-4by5">
                     <img
-                        src="https://static.posters.cz/image/750/%D0%9F%D0%BB%D0%B0%D0%BA%D0%B0%D1%82/batman-arkham-knight-cover-i24451.jpg">
+                        src="https://media.rawg.io/media/games/031/031af38e6a558d4cd4bf91ee80904cdf.jpg">
                 </figure>
             </div>
             <div class="column has-text-centered">
