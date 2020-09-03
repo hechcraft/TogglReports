@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
 
 class TestController extends Controller
 {
@@ -39,11 +38,5 @@ class TestController extends Controller
             }
         }
         return view('select')->with(array('projectName' => $projectName, 'durrations' => $durrations));
-    }
-
-    private function secondToTime($mseconds)
-    {
-        $time = round($mseconds * 0.001);
-        return sprintf('%02d:%02d:%02d', ($time / 3600), ($time / 60 % 60), $time % 60);
     }
 }

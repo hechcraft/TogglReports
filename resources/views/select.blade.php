@@ -25,7 +25,6 @@
                                 {{$projectName[$j]}}
                             </p>
                         </label>
-                        <p class="level-right"> move </p>
                     </div>
                 </div>
                 @break($j === count($projectName) - 1)
@@ -34,12 +33,11 @@
                      class="ml-5 mr-5 box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
-                            <input type="checkbox">
+                            <input name="selected[]" value="{{$durrations[$j] . ' ' . $projectName[$j]}}"or type="checkbox">
                             <p class="ml-2 subtitle is-5">
                                 {{$projectName[$j]}}
                             </p>
                         </label>
-                        <p class="level-right"> move </p>
                     </div>
                 </div>
                 @break($j === count($projectName) - 1)
@@ -48,12 +46,11 @@
                      class="box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
-                            <input type="checkbox">
+                            <input name="selected[]" value="{{$durrations[$j] . ' ' . $projectName[$j]}}" type="checkbox">
                             <p class="ml-2 subtitle is-5">
                                 {{$projectName[$j]}}
                             </p>
                         </label>
-                        <p class="level-right"> move </p>
                     </div>
                 </div>
             </div>

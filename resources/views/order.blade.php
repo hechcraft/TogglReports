@@ -1,6 +1,6 @@
 @extends('src/footer')
 @section('content')
-    {{dd($data)}}
+{{--    {{dd($data)}}--}}
     <div class="container">
         <h1 class="title is-1"> Top 5 </h1>
         <div class="box columns mb-6">
@@ -13,7 +13,7 @@
             <div class="column has-text-centered">
                 <figure class="image is-4by5">
                     <img
-                        src="https://static.posters.cz/image/750/%D0%9F%D0%BB%D0%B0%D0%BA%D0%B0%D1%82/batman-arkham-knight-cover-i24451.jpg">
+                        src="https://images.igdb.com/igdb/image/upload/t_cover_big/co1x7i.jpg">
                 </figure>
             </div>
             <div class="column has-text-centered">
