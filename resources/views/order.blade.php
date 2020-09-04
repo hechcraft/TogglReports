@@ -1,6 +1,5 @@
 @extends('src/footer')
 @section('content')
-{{--    {{dd($data)}}--}}
     <div class="container">
         <h1 class="title is-1"> Top 5 </h1>
         <div class="box columns mb-6">

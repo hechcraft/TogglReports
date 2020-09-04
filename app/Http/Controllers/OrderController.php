@@ -3,11 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+    protected $headers;
+    protected $gamesIdUri;
+    protected $gamesCoverUri;
+
+    public function __construct()
+    {
+        $this->headers = ["user-key" => env('IGDB_TOKEN')];
+        $this->gamesIdUri = 'https://api-v3.igdb.com/games';
+        $this->gamesCoverUri = 'https://api-v3.igdb.com/covers';
+    }
+
     public function index(Request $request)
     {
         $sortedData = collect();
@@ -20,36 +31,58 @@ class OrderController extends Controller
                 $sortedData->put($element[1], +$element[0] + +$sortedData->get($element[1]));
             }
         }
-        $test = $this->getIdGames("Halo");
-        dd($this->getGamesCover(data_get($test,'0.id')));
+        $sortedData = $sortedData->sortDesc();
+
+        $topFiveGamesId = $this->getTopFiveGamesId($sortedData);
+        $topFiveGamesCover = $this->getTopFiveGamesCover($topFiveGamesId);
+
+        dd($this->changeSizeCover($topFiveGamesCover));
 //        return view('order')->with('data', $sortedData);
     }
 
-    private function getIdGames($topFivesGames)
+    private function getRequestFromApi($bodyRaw, $requestUri)
     {
-        $response = Http::withHeaders([
-            'user-key' => env('IGDB_TOKEN')
-        ])->post("https://api-v3.igdb.com/games", [
-            'fields' => 'name',
-            'search' => $topFivesGames,
+        $client = new Client();
+        $response = $client->request('POST', $requestUri, [
+            'headers' => $this->headers,
+            'body' => $bodyRaw
         ]);
-        $idGames = json_decode($response);
-        return $idGames;
+        $decodeResponse = json_decode($response->getBody()->getContents());
+        return $decodeResponse;
     }
 
-    private function getGamesCover($idGames){
-//        $response = Http::withHeaders([
-//            'user-key' => env('IGDB_TOKEN')
-//        ])->post('https://api-v3.igdb.com/covers', [
-//            'fields' => 'url',
-//            'where game = 6803'
-//        ]);
-        $headers = ["user-key" => env('IGDB_TOKEN')];
-        $body = "fields url; where game = 6803ж ";
-        $client = new Client();
-        $response = $client->request('POST', 'https://api-v3.igdb.com/covers',['headers' => $headers, 'body' => $body]);
-        $gamesCover = json_decode($response);
+    private function getTopFiveGamesId($sortedData)
+    {
+        $gamesId = collect();
+        foreach ($sortedData as $value => $key) {
+            $getIdGamesBody = "search \"$value\"; fields name;";
+            $gamesData = $this->getRequestFromApi($getIdGamesBody, $this->gamesIdUri);
+            $gamesId->push(data_get($gamesData, '0.id'));
+        }
+        return $gamesId;
+    }
+
+    private function getTopFiveGamesCover($gamesId)
+    {
+        $gamesCover = collect();
+        $firstValue = $gamesId->first();
+        $getGamesCover = "fields url; where game = $firstValue;";
+        $coverData = $this->getRequestFromApi($getGamesCover, $this->gamesCoverUri);
+        $gamesCover->push(data_get($coverData, '0.url'));
         return $gamesCover;
+    }
+
+    private function changeSizeCover($urlImages)
+    {
+        $covers = collect();
+        foreach ($urlImages as $value) {
+            $test = explode("/", $value);
+            $test[6] = "t_cover_big";
+            $test = implode("/", $test);
+            $test = Str::after($test, '//');
+            $covers->push($test);
+        }
+        return $covers;
     }
 
     private function secondToTime($mseconds)
