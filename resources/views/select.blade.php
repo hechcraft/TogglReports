@@ -33,7 +33,7 @@
                      class="ml-5 mr-5 box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
-                            <input name="selected[]" value="{{$durrations[$j] . ' ' . $projectName[$j]}}"or type="checkbox">
+                            <input checked name="selected[]" value="{{$durrations[$j] . ' ' . $projectName[$j]}}"or type="checkbox">
                             <p class="ml-2 subtitle is-5">
                                 {{$projectName[$j]}}
                             </p>
@@ -46,7 +46,7 @@
                      class="box column level-item has-text-centered">
                     <div class="level">
                         <label class="checkbox level-left">
-                            <input name="selected[]" value="{{$durrations[$j] . ' ' . $projectName[$j]}}" type="checkbox">
+                            <input checked name="selected[]" value="{{$durrations[$j] . ' ' . $projectName[$j]}}" type="checkbox">
                             <p class="ml-2 subtitle is-5">
                                 {{$projectName[$j]}}
                             </p>

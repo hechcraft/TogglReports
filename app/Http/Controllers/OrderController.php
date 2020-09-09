@@ -32,12 +32,10 @@ class OrderController extends Controller
             }
         }
         $sortedData = $sortedData->sortDesc();
-
         $topFiveGamesId = $this->getTopFiveGamesId($sortedData);
         $topFiveGamesCover = $this->getTopFiveGamesCover($topFiveGamesId);
 
-        dd($this->changeSizeCover($topFiveGamesCover));
-//        return view('order')->with('data', $sortedData);
+        return view('order')->with(array('data' => $sortedData, 'amountPictures' => $this->maxTopPictures($sortedData)));
     }
 
     private function getRequestFromApi($bodyRaw, $requestUri)
@@ -54,10 +52,18 @@ class OrderController extends Controller
     private function getTopFiveGamesId($sortedData)
     {
         $gamesId = collect();
+        $counter = 0;
         foreach ($sortedData as $value => $key) {
-            $getIdGamesBody = "search \"$value\"; fields name;";
+            $getIdGamesBody = "search \"$value\"; fields name, popularity;";
             $gamesData = $this->getRequestFromApi($getIdGamesBody, $this->gamesIdUri);
-            $gamesId->push(data_get($gamesData, '0.id'));
+            $gamesId->push($this->sortByPopularity($gamesData));
+            if ($gamesId->last() === 0) {
+                $gamesId->forget($counter);
+            }
+            if ($counter === $this->maxTopPictures($sortedData)) {
+                break;
+            }
+            $counter++;
         }
         return $gamesId;
     }
@@ -65,10 +71,11 @@ class OrderController extends Controller
     private function getTopFiveGamesCover($gamesId)
     {
         $gamesCover = collect();
-        $firstValue = $gamesId->first();
-        $getGamesCover = "fields url; where game = $firstValue;";
-        $coverData = $this->getRequestFromApi($getGamesCover, $this->gamesCoverUri);
-        $gamesCover->push(data_get($coverData, '0.url'));
+        foreach ($gamesId as $value) {
+            $getGamesCover = "fields url; where game = $value;";
+            $coverData = $this->getRequestFromApi($getGamesCover, $this->gamesCoverUri);
+            $gamesCover->push(data_get($coverData, '0.url'));
+        }
         return $gamesCover;
     }
 
@@ -76,13 +83,35 @@ class OrderController extends Controller
     {
         $covers = collect();
         foreach ($urlImages as $value) {
-            $test = explode("/", $value);
-            $test[6] = "t_cover_big";
-            $test = implode("/", $test);
-            $test = Str::after($test, '//');
-            $covers->push($test);
+            $coverUrl = explode("/", $value);
+            $coverUrl[6] = "t_cover_big";
+            $coverUrl = implode("/", $coverUrl);
+            $covers->push($coverUrl);
         }
         return $covers;
+    }
+
+    private function sortByPopularity($gamesData)
+    {
+        $maxPopularity = data_get($gamesData, '0.popularity');
+        $idMaxElement = 0;
+        foreach ($gamesData as $value) {
+            $maxPopularity = (data_get($value, 'popularity') > $maxPopularity) ? data_get($value, 'popularity') : $maxPopularity;
+        }
+        foreach ($gamesData as $value) {
+            if (data_get($value, 'popularity') === $maxPopularity) {
+                $idMaxElement = data_get($value, 'id');
+            }
+        }
+        return $idMaxElement;
+    }
+
+    private function maxTopPictures($sortedData)
+    {
+        if ($sortedData->count() < 5) {
+            return $sortedData->count();
+        }
+        return 5;
     }
 
     private function secondToTime($mseconds)

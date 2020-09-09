@@ -6,13 +6,13 @@
             <div class="column has-text-centered">
                 <figure class="image is-4by5">
                     <img
-                        src="https://media.rawg.io/media/games/031/031af38e6a558d4cd4bf91ee80904cdf.jpg">
+                        src="//media.rawg.io/media/games/031/031af38e6a558d4cd4bf91ee80904cdf.jpg">
                 </figure>
             </div>
             <div class="column has-text-centered">
                 <figure class="image is-4by5">
                     <img
-                        src="https://images.igdb.com/igdb/image/upload/t_cover_big/co1x7i.jpg">
+                        src="//images.igdb.com/igdb/image/upload/t_cover_big/co1x7i.jpg">
                 </figure>
             </div>
             <div class="column has-text-centered">
